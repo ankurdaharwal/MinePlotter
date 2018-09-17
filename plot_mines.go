@@ -29,6 +29,7 @@ type xy struct{ x, y float64 }
 func generateData() (plotter.XYs, error) {
 
 	var xys plotter.XYs
+	var noMinePoints int
 	for i := -200; i < 200; i++ {
 		for j := -200; j < 200; j++ {
 
@@ -38,8 +39,12 @@ func generateData() (plotter.XYs, error) {
 			if sum > 21 {
 				xys = append(xys, struct{ X, Y float64 }{float64(i), float64(j)})
 			}
+			if sum < 22 {
+				noMinePoints++
+			}
 		}
 	}
+	fmt.Printf("\n\nTotal Points %v\n", noMinePoints)
 	return xys, nil
 }
 
@@ -53,22 +58,17 @@ func sumDigits(x int, y int) (sum int) {
 	if y < 0 {
 		y = -y
 	}
-
 	fmt.Printf("\nX: %v", x)
 	fmt.Printf("| Y: %v", y)
-
 	for x > 0 {
 		sumX += x % 10
 		x = x / 10
 	}
-
 	for y > 0 {
 		sumY += y % 10
 		y = y / 10
 	}
-
 	fmt.Printf("| X+Y: %v", sumX+sumY)
-
 	return sumX + sumY
 }
 
